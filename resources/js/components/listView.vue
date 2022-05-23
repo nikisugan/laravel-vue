@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-for="(item,index) in items" :key="index">
+        <div v-for="(item,index) in $store.state.todos.items" :key="index">
             <list-item
                 :item="item"
                 class="item"
@@ -14,7 +14,7 @@
 <script>
 import listItem from './listItem.vue'
 export default {
-    props:['items'],
+    // props:['items'],
     components:{
         listItem
     },

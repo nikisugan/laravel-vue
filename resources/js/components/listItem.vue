@@ -27,61 +27,10 @@ export default {
     },
     methods:{
         updateCheck(){
-            Swal.fire({
-                title: 'Please wait...',
-                didOpen: () => {
-                    Swal.showLoading()
-                },
-            })
-            document.querySelectorAll('.chBox').forEach( e =>{
-                if(e.classList.contains(`list-${this.item.id}`)){
-                    e.checked = this.item.completed;
-                }
-            })
-            // console.log(this.item.completed)
-            axios.put('api/item/' + this.item.id, {
-                item:this.item
-            })
-            .then((result) => {
-                if( result.status == 200){
-                    Swal.fire({
-                    icon: 'success',
-                    title: 'Updated!',
-                    showConfirmButton: false,
-                    timer: 1500
-                    }).then((result) => {
-                        this.$emit('itemchanged');
-                    })
-                }
-            }).catch((err) => {
-                console.error(err)
-            });
+            this.$store.dispatch('todos/updateCheck', this.item);
         },
         removeItem(){
-            Swal.fire({
-                title: 'Please wait...',
-                didOpen: () => {
-                    Swal.showLoading()
-                },
-            })
-            axios.delete('api/item/' + this.item.id, {
-                item:this.item
-            })
-            .then((result) => {
-                if( result.status == 200){
-                    
-                    Swal.fire({
-                    icon: 'success',
-                    title: 'Removed!',
-                    showConfirmButton: false,
-                    timer: 1500
-                    }).then((result) => {
-                        this.$emit('itemchanged');
-                    })
-                }
-            }).catch((err) => {
-                console.error(err)
-            });
+            this.$store.dispatch('todos/removeItem', this.item);
         },
         checkStatus(){
             document.querySelectorAll('.chBox').forEach(element => {

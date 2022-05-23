@@ -25,31 +25,9 @@ export default {
            if( this.item.name == ''){
                return;
            }
-            Swal.fire({
-                title: 'Please wait...',
-                didOpen: () => {
-                    Swal.showLoading()
-                },
-            })
-           axios.post('api/item/store', {
-               item: this.item
-           })
-           .then(res => {
-               if (res.status == 201) {
-                Swal.fire({
-                icon: 'success',
-                title: 'Saved!',
-                showConfirmButton: false,
-                timer: 1500
-                }).then((result) => {
-                    this.item.name = "";
-                    this.$emit('reloadList');
-                })
-               }
-           })
-           .catch( error => {
-               console.log( error );
-           })
+            this.$store.dispatch('todos/addItem', this.item);
+            this.item.name = "";
+
        },
    },
 }
