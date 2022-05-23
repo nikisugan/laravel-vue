@@ -25,6 +25,12 @@ export default {
     },
     methods:{
         updateCheck(){
+            Swal.fire({
+                title: 'Please wait...',
+                didOpen: () => {
+                    Swal.showLoading()
+                },
+            })
             document.querySelectorAll('.chBox').forEach( e =>{
                 if(e.classList.contains(`list-${this.item.id}`)){
                     e.checked = this.item.completed;
@@ -36,19 +42,40 @@ export default {
             })
             .then((result) => {
                 if( result.status == 200){
-                    this.$emit('itemchanged');
+                    Swal.fire({
+                    icon: 'success',
+                    title: 'Updated!',
+                    showConfirmButton: false,
+                    timer: 1500
+                    }).then((result) => {
+                        this.$emit('itemchanged');
+                    })
                 }
             }).catch((err) => {
                 console.error(err)
             });
         },
         removeItem(){
+            Swal.fire({
+                title: 'Please wait...',
+                didOpen: () => {
+                    Swal.showLoading()
+                },
+            })
             axios.delete('api/item/' + this.item.id, {
                 item:this.item
             })
             .then((result) => {
                 if( result.status == 200){
-                    this.$emit('itemchanged');
+                    
+                    Swal.fire({
+                    icon: 'success',
+                    title: 'Removed!',
+                    showConfirmButton: false,
+                    timer: 1500
+                    }).then((result) => {
+                        this.$emit('itemchanged');
+                    })
                 }
             }).catch((err) => {
                 console.error(err)

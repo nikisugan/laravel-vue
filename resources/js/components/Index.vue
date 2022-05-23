@@ -29,8 +29,16 @@ export default {
     },
     methods:{
         getList () {
+            Swal.fire({
+                title: 'Please wait...',
+                didOpen: () => {
+                    Swal.showLoading()
+                },
+            })
             axios.get('api/items')
             .then(result => {
+                // Swal.fire('Any fool can use a computer')
+                Swal.close()
                 this.items = result.data
             })
             .catch(err => {

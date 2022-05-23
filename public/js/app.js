@@ -5300,7 +5300,15 @@ __webpack_require__.r(__webpack_exports__);
     getList: function getList() {
       var _this = this;
 
+      Swal.fire({
+        title: 'Please wait...',
+        didOpen: function didOpen() {
+          Swal.showLoading();
+        }
+      });
       axios.get('api/items').then(function (result) {
+        // Swal.fire('Any fool can use a computer')
+        Swal.close();
         _this.items = result.data;
       })["catch"](function (err) {
         console.log(err);
@@ -5352,13 +5360,26 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
+      Swal.fire({
+        title: 'Please wait...',
+        didOpen: function didOpen() {
+          Swal.showLoading();
+        }
+      });
       axios.post('api/item/store', {
         item: this.item
       }).then(function (res) {
         if (res.status == 201) {
-          _this.item.name = "";
+          Swal.fire({
+            icon: 'success',
+            title: 'Saved!',
+            showConfirmButton: false,
+            timer: 1500
+          }).then(function (result) {
+            _this.item.name = "";
 
-          _this.$emit('reloadList');
+            _this.$emit('reloadList');
+          });
         }
       })["catch"](function (error) {
         console.log(error);
@@ -5407,6 +5428,12 @@ __webpack_require__.r(__webpack_exports__);
     updateCheck: function updateCheck() {
       var _this = this;
 
+      Swal.fire({
+        title: 'Please wait...',
+        didOpen: function didOpen() {
+          Swal.showLoading();
+        }
+      });
       document.querySelectorAll('.chBox').forEach(function (e) {
         if (e.classList.contains("list-".concat(_this.item.id))) {
           e.checked = _this.item.completed;
@@ -5417,7 +5444,14 @@ __webpack_require__.r(__webpack_exports__);
         item: this.item
       }).then(function (result) {
         if (result.status == 200) {
-          _this.$emit('itemchanged');
+          Swal.fire({
+            icon: 'success',
+            title: 'Updated!',
+            showConfirmButton: false,
+            timer: 1500
+          }).then(function (result) {
+            _this.$emit('itemchanged');
+          });
         }
       })["catch"](function (err) {
         console.error(err);
@@ -5426,11 +5460,24 @@ __webpack_require__.r(__webpack_exports__);
     removeItem: function removeItem() {
       var _this2 = this;
 
+      Swal.fire({
+        title: 'Please wait...',
+        didOpen: function didOpen() {
+          Swal.showLoading();
+        }
+      });
       axios["delete"]('api/item/' + this.item.id, {
         item: this.item
       }).then(function (result) {
         if (result.status == 200) {
-          _this2.$emit('itemchanged');
+          Swal.fire({
+            icon: 'success',
+            title: 'Removed!',
+            showConfirmButton: false,
+            timer: 1500
+          }).then(function (result) {
+            _this2.$emit('itemchanged');
+          });
         }
       })["catch"](function (err) {
         console.error(err);
