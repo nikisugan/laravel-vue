@@ -75,6 +75,7 @@ class ItemController extends Controller
     public function update(Request $request, $id)
     {
         $existingItem = Item::find( $id );
+        print_r($request->item);
 
         if($existingItem){
             $existingItem->completed = $request->item['completed'] ? true : false;
